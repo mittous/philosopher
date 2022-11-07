@@ -6,7 +6,7 @@
 /*   By: imittous <imittous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 02:24:05 by imittous          #+#    #+#             */
-/*   Updated: 2022/11/02 22:59:13 by imittous         ###   ########.fr       */
+/*   Updated: 2022/11/07 15:45:20 by imittous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ long	ft_atoi(char *str)
 
 /***********************************************************/
 
-int	ft_parsing(char **av, t_phil *info, int ac)
+int	ft_parsing(char **av, t_phil **info, int ac)
 {
 	if (ac < 5 || ac > 6)
 		return (0);
@@ -51,17 +51,17 @@ int	ft_parsing(char **av, t_phil *info, int ac)
 		|| ft_atoi(av[4]) < -1)
 		return (0);
 	if (ft_atoi(av[1]) > 0)
-		info->philo_nmbr = ft_atoi(av[1]);
+		(*info)->philo_nmbr = ft_atoi(av[1]);
 	if (ft_atoi(av[2]) >= 0)
-		info->tmtdie = ft_atoi(av[2]);
+		(*info)->tmtdie = ft_atoi(av[2]);
 	if (ft_atoi(av[3]) >= 0)
-		info->tmtoeat = ft_atoi(av[3]);
+		(*info)->tmtoeat = ft_atoi(av[3]);
 	if (ft_atoi(av[4]) >= 0)
-		info->tmtosleep = ft_atoi(av[4]);
-		info->philomusteat = -1;
+		(*info)->tmtosleep = ft_atoi(av[4]);
+		(*info)->philomusteat = -1;
 	if (av[5])
 		if (ft_atoi(av[5]) >= 0)
-			info->philomusteat = ft_atoi(av[5]);
+			(*info)->philomusteat = ft_atoi(av[5]);
 	return (1);
 }
 

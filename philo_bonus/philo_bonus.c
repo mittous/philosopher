@@ -6,7 +6,7 @@
 /*   By: imittous <imittous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 05:04:27 by imittous          #+#    #+#             */
-/*   Updated: 2022/11/01 05:33:10 by imittous         ###   ########.fr       */
+/*   Updated: 2022/11/07 14:46:22 by imittous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	*ft_check_death(void	*cp)
 		{
 			sem_wait(info->f_dta->print);
 			printf("%lld %d dead\n", ft_get_time() - info->f_dta->reference,
-				info->id + 1);
+				info->id);
 			exit(0);
 		}
 	}
@@ -39,14 +39,14 @@ void	ft_philo_eat(t_philz *info)
 	sem_wait(info->f_dta->fork);
 	sem_wait(info->f_dta->print);
 	printf ("%lld %d take fork\n", (ft_get_time() - info->f_dta->reference),
-		info->id + 1);
+		info->id);
 	sem_post(info->f_dta->print);
 	sem_wait(info->f_dta->fork);
 	sem_wait(info->f_dta->print);
 	printf ("%lld %d take fork\n", (ft_get_time() - info->f_dta->reference),
-		info->id + 1);
+		info->id);
 	printf ("%lld %d is eating\n", (ft_get_time() - info->f_dta->reference),
-		info->id + 1);
+		info->id);
 	sem_wait(info->f_dta->check);
 	info->f_dta->check_eat++;
 	info->last_meal = ft_get_time();
@@ -63,19 +63,19 @@ void	*ft_routin(t_philz *info)
 	int			r;
 
 	pthread_create(&philo[0], NULL, ft_check_death, &info[0]);
-	if ((info->id + 1) % 2 == 0)
+	if ((info->id) % 2 == 0)
 		usleep(300);
 	while (1)
 	{
 		ft_philo_eat(info);
 		sem_wait(info->f_dta->print);
 		printf ("%lld %d is sleeping\n", (ft_get_time()
-				- info->f_dta->reference), info->id + 1);
+				- info->f_dta->reference), info->id);
 		sem_post(info->f_dta->print);
 		ft_usleep(info->f_dta->tmtosleep);
 		sem_wait(info->f_dta->print);
 		printf ("%lld %d is thinking\n", (ft_get_time()
-				- info->f_dta->reference), info->id + 1);
+				- info->f_dta->reference), info->id);
 		sem_post(info->f_dta->print);
 		sem_wait(info->f_dta->check);
 		r = info->f_dta->check_eat;
