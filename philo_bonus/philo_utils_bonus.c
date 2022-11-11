@@ -6,7 +6,7 @@
 /*   By: imittous <imittous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 05:05:45 by imittous          #+#    #+#             */
-/*   Updated: 2022/11/01 05:46:14 by imittous         ###   ########.fr       */
+/*   Updated: 2022/11/11 16:24:53 by imittous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ long	ft_atoi(char *str)
 	if (str[i] && (str[i] == '-' || str[i] == '+'))
 	{
 		if (str[i] == '-')
-			sign = -1;
+			exit(1);
 		i++;
 	}
 	if (str[i] == '\0')
@@ -43,17 +43,23 @@ long	ft_atoi(char *str)
 
 /***********************************************************/
 
-int	ft_parsing(char **av, t_phil *info, int ac)
+int	ft_parsing(char **av, t_phil **info, int ac, t_philz **philo_info)
 {
 	if (ac < 5 || ac > 6)
 		exit (1);
-	info->philo_nmbr = ft_atoi(av[1]);
-	info->tmtdie = ft_atoi(av[2]);
-	info->tmtoeat = ft_atoi(av[3]);
-	info->tmtosleep = ft_atoi(av[4]);
-	info->philomusteat = -1;
+	(*info)->philo_nmbr = ft_atoi(av[1]);
+	(*info)->tmtdie = ft_atoi(av[2]);
+	(*info)->tmtoeat = ft_atoi(av[3]);
+	(*info)->tmtosleep = ft_atoi(av[4]);
+	(*info)->philomusteat = -1;
 	if (av[5])
-		info->philomusteat = ft_atoi(av[5]);
+		(*info)->philomusteat = ft_atoi(av[5]);
+	(*philo_info) = malloc(sizeof(t_philz));
+	if (!(*philo_info))
+		return (0);
+	(*philo_info)->pid = malloc(sizeof(pid_t) * (*info)->philo_nmbr);
+	if (!(*philo_info)->pid)
+		return (0);
 	return (1);
 }
 

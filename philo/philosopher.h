@@ -6,7 +6,7 @@
 /*   By: imittous <imittous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 02:21:33 by imittous          #+#    #+#             */
-/*   Updated: 2022/11/07 15:45:30 by imittous         ###   ########.fr       */
+/*   Updated: 2022/11/10 16:20:50 by imittous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@
 
 typedef struct phil{
 	pthread_mutex_t	print;
-	pthread_mutex_t	end;
 	pthread_mutex_t	cheking;
 	pthread_mutex_t	*fork;
 	unsigned long	reference;
@@ -34,13 +33,11 @@ typedef struct phil{
 	int				tmtoeat;
 	int				tmtosleep;
 	int				philomusteat;
-	bool			stop;
 }	t_phil;
 
 typedef struct philz{
 	int				id;
 	unsigned long	last_meal;
-	pid_t			*pid;
 	t_phil			*f_dta;
 	int				check_eat;
 }	t_philz;
@@ -62,8 +59,10 @@ void			ft_usleep(unsigned long time);
 int				ft_lock_fork(char *s, t_philz *info, int i, int id);
 int				ft_print_and_lock(char *s, t_philz *info, int id);
 void			ft_unlock_fork(t_philz *info, int i);
-int				ft_finish_prog(t_philz *philo_io, pthread_t *phi, t_phil **info);
-void			*creat_philo(t_phil **info, t_philz *philo_nfo, pthread_t *phio);
+int				ft_finish_prog(t_philz *philo_io, pthread_t *phi,
+					t_phil **info);
+void			*creat_philo(t_phil **info, t_philz *philo_nfo,
+					pthread_t *phio);
 /* ######### philo_utils1.c ######### */
 
 #endif

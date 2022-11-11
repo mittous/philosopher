@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: imittous <imittous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/01 02:21:19 by imittous          #+#    #+#             */
-/*   Updated: 2022/11/07 16:04:24 by imittous         ###   ########.fr       */
+/*   Created: 2022/11/10 16:19:06 by imittous          #+#    #+#             */
+/*   Updated: 2022/11/10 20:08:23 by imittous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,36 +14,29 @@
 
 void	ft_philo_eat(t_philz *info)
 {
-	int	e;
-
-	e = info->id;
-	if (e == info->f_dta->philo_nmbr)
-		e = 1;
-			pthread_mutex_lock(&info->f_dta->fork[e]);
-
+	pthread_mutex_lock(&info->f_dta->fork[info->id]);
 	pthread_mutex_lock(&info->f_dta->print);
-	printf ("%lu %d take fork\n", (ft_get_time() - info->f_dta->reference),
-		info->id);
+	printf ("%lu %d %s\n", (ft_get_time() - info->f_dta->reference),
+		info->id + 1, "take fork");
 	pthread_mutex_unlock(&info->f_dta->print);
-		pthread_mutex_lock(&info->f_dta->fork[e - 1]);
-
+	pthread_mutex_lock(&info->f_dta->fork[(info->id + 1)
+		% info->f_dta->philo_nmbr]);
 	pthread_mutex_lock(&info->f_dta->print);
-	printf ("%lu %d take fork\n", (ft_get_time() - info->f_dta->reference),
-		info->id);
+	printf ("%lu %d %s\n", (ft_get_time() - info->f_dta->reference),
+		info->id + 1, "take fork");
 	pthread_mutex_unlock(&info->f_dta->print);
 	pthread_mutex_lock(&info->f_dta->print);
-	printf ("%lu %d is eating\n", (ft_get_time() - info->f_dta->reference),
-		info->id);
+	printf ("%lu %d %s\n", (ft_get_time() - info->f_dta->reference),
+		info->id + 1, "is eating");
 	pthread_mutex_unlock(&info->f_dta->print);
 	pthread_mutex_lock(&info->f_dta->cheking);
-	info->last_meal = ft_get_time();
+	info->last_meal = ft_get_time() + info->f_dta->tmtdie;
 	info->check_eat++;
 	pthread_mutex_unlock(&info->f_dta->cheking);
 	ft_usleep(info->f_dta->tmtoeat);
-
-	
-	pthread_mutex_unlock(&info->f_dta->fork[e - 1]);
-	pthread_mutex_unlock(&info->f_dta->fork[e]);
+	pthread_mutex_unlock(&info->f_dta->fork[(info->id + 1)
+		% info->f_dta->philo_nmbr]);
+	pthread_mutex_unlock(&info->f_dta->fork[info->id]);
 }
 
 /***********************************************************/
@@ -58,18 +51,14 @@ void	*ft_routin(void *cp)
 	while (1)
 	{
 		ft_philo_eat(info);
-		pthread_mutex_lock(&info->f_dta->end);
-		if (info->f_dta->stop == true)
-			return (0);
-		pthread_mutex_unlock(&info->f_dta->end);
 		pthread_mutex_lock(&info->f_dta->print);
 		printf("%ld %d is sleeping\n", ft_get_time() - info->f_dta->reference,
-			info->id);
+			info->id + 1);
 		pthread_mutex_unlock(&info->f_dta->print);
 		ft_usleep(info->f_dta->tmtosleep);
 		pthread_mutex_lock(&info->f_dta->print);
 		printf("%ld %d is thinking\n", ft_get_time() - info->f_dta->reference,
-			info->id);
+			info->id + 1);
 		pthread_mutex_unlock(&info->f_dta->print);
 	}
 	return (0);
@@ -89,12 +78,7 @@ int	ft_check_eating(t_phil **info, t_philz *philo_info)
 		j = philo_info[s].check_eat;
 		pthread_mutex_unlock(&philo_info->f_dta->cheking);
 		if (j >= (*info)->philomusteat && s == (*info)->philo_nmbr - 1)
-		{
-			pthread_mutex_lock(&philo_info->f_dta->end);
-			(*info)->stop = true;
-			pthread_mutex_unlock(&philo_info->f_dta->end);
 			return (1);
-		}
 		if (j < (*info)->philomusteat)
 			break ;
 		s++;
@@ -115,15 +99,13 @@ int	ft_check_death(t_phil **info, t_philz *philo_info)
 		while (++i < (*info)->philo_nmbr)
 		{
 			pthread_mutex_lock(&philo_info->f_dta->cheking);
-			j = ft_get_time() - philo_info[i].last_meal;
+			j = philo_info[i].last_meal;
 			pthread_mutex_unlock(&philo_info->f_dta->cheking);
-			if (j > (*info)->tmtdie)
+			if (ft_get_time() > j)
 			{
-				pthread_mutex_lock(&philo_info->f_dta->end);
-				(*info)->stop = true;
-				pthread_mutex_unlock(&philo_info->f_dta->end);
 				pthread_mutex_lock(&philo_info->f_dta->print);
-				printf("%lu %d dead\n", ft_get_time() - (*info)->reference, i + 1);
+				printf("%lu %d dead\n", ft_get_time() - (*info)->reference,
+					i + 1);
 				return (1);
 			}
 			if (ft_check_eating(info, philo_info))
@@ -148,14 +130,14 @@ int	main(int ac, char **av)
 	if (ft_parsing(av, &info, ac) == 0)
 		return (0);
 	i = 0;
-	philo_info = malloc(sizeof(t_philz) * (info->philo_nmbr));
+	philo_info = malloc(sizeof(t_philz) * ((*info).philo_nmbr));
 	if (!philo_info)
 		return (0);
-	philo = malloc(sizeof(pthread_t) * (info->philo_nmbr));
+	philo = malloc(sizeof(pthread_t) * ((*info).philo_nmbr));
 	if (!philo)
 		return (0);
-	info->fork = malloc(sizeof(pthread_mutex_t) * (info->philo_nmbr));
-	if (!info->fork)
+	(*info).fork = malloc(sizeof(pthread_mutex_t) * ((*info).philo_nmbr));
+	if (!(*info).fork)
 		return (0);
 	creat_philo(&info, philo_info, philo);
 	if (ft_check_death(&info, philo_info))
