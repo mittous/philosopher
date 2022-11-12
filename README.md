@@ -1,5 +1,5 @@
 
-
+[gif]( https://github.com/mittous/philosopher/blob/master/index.gif)
 # -------/-- Philosophers 42 --/-------
 # The Dining Philosophers problem
 
@@ -93,7 +93,7 @@ and stop the simulation when any philosopher died.`
 `◦Finally, you need to add the the last argument and stop the simullation when all philosophers have eaten at least number_of_times_each_philosopher_must_eat
 If not specified, the simulation stops when a philosopher dies ofcourse.`
 
-## road map to follow for your Mandatory Part :
+## road map to follow for your bonus Part :
 
 
 `◦First you need to know what processes is.`
