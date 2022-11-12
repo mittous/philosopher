@@ -7,7 +7,7 @@ You will see how to create threads and processes and you will discover what Mute
 
 ## Deployment
 
-To deploy this project run :
+To run the program run :
 
 ```bash
     make */ then /*
