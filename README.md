@@ -7,7 +7,7 @@ You will see how to create threads and processes and you will discover what Mute
 
 ## Runing the program :
 
-### run the following command 
+### Run the following command 
 ```bash
     make */ then /*
 (./philo */ or /* ./philo_bonus) <number_of_philosophers> <time_to_die> <time_to_eat> <time_to_sleep> (``*/ optionall arg is /*``)
@@ -26,7 +26,9 @@ take a look to this ressources you may find theme helpfull :
 
 [Fork() in C Programming Language]( https://www.section.io/engineering-education/fork-in-c-programming-language/)
 
-[Multithreaded Programming](https://pages.mtu.edu/~shene/NSF-3/e-Book/index.html) just give it a chance you gonna like it.
+[Multithreaded Programming](https://pages.mtu.edu/~shene/NSF-3/e-Book/index.html) Just give it a chance.
+
+[What is a mutex? How does it work?](https://mortoray.com/how-does-a-mutex-work-what-does-it-cost/) You gonna like it.
 
 And ofc your friend in implementation process is "manuall page".
 ## About the project
@@ -56,15 +58,16 @@ And ofc your friend in implementation process is "manuall page".
 ## About the logs of your program:
 `•Any state change of a philosopher must be formatted as follows:`
 
-`◦timestamp_in_ms X has taken a fork`
+`◦Timestamp_in_ms X has taken a fork`
 
-`◦timestamp_in_ms X is eating`
+`◦Timestamp_in_ms X is eating`
 
-`◦timestamp_in_ms X is sleeping`
+`◦Timestamp_in_ms X is sleeping`
 
-`◦timestamp_in_ms X is thinking`
+`◦Timestamp_in_ms X is thinking`
 
-`◦timestamp_in_ms X died`
+`◦Timestamp_in_ms X died`
+
 
 `Replace timestamp_in_ms with the current timestamp in milliseconds and X with the philosopher number.`
 
