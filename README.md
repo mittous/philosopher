@@ -5,10 +5,9 @@
 In this project, you will learn the basics of threading a process.
 You will see how to create threads and processes and you will discover what Mutexes and Semaphore is.
 
-## Deployment
+## Runing the program :
 
-To run the program run :
-
+### run the following command 
 ```bash
     make */ then /*
 (./philo */ or /* ./philo_bonus) <number_of_philosophers> <time_to_die> <time_to_eat> <time_to_sleep> (``*/ optionall arg is /*``)
