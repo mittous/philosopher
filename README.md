@@ -1,5 +1,5 @@
 
-[gif]( https://github.com/mittous/philosopher/blob/master/index.gif)
+[]( https://github.com/mittous/philosopher/blob/master/index.gif)
 # -------/-- Philosophers 42 --/-------
 # The Dining Philosophers problem
 
